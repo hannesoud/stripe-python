@@ -27,6 +27,7 @@ def convert_to_stripe_object(resp, api_key, account):
         'invoice': Invoice,
         'invoiceitem': InvoiceItem,
         'list': ListObject,
+        'payout': Payout,
         'plan': Plan,
         'recipient': Recipient,
         'refund': Refund,
@@ -894,6 +895,14 @@ class Coupon(CreateableAPIResource, UpdateableAPIResource,
 
 class Event(ListableAPIResource):
     pass
+
+
+class Payout(CreateableAPIResource, UpdateableAPIResource,
+             ListableAPIResource):
+
+    def cancel(self):
+        self.refresh_from(self.request('post',
+                          self.instance_url() + '/cancel'))
 
 
 class Transfer(CreateableAPIResource, UpdateableAPIResource,
